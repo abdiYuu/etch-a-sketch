@@ -20,7 +20,7 @@ body {
 	width:80%;
 	height:80vh;
 	margin:auto;
-	margin-top:3rem;
+	margin-top:1rem;
 	border:1rem solid #92AA83;
 	box-shadow: 1rem 1rem 1rem 1rem #B0BEA9;
 	border-radius:1rem;
@@ -30,6 +30,7 @@ body {
 }
 
 .header {text-align:center;}
+
 label {
 	display:block;
 	padding-bottom:0.5rem;
