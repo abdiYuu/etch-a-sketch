@@ -13,13 +13,23 @@ function makeGrid(sq) {
 	}
 }
 
+function changeColor(e) {
+	let button_id = e.target.id
+	let rgb = [];
+	for(let i=0; i<3; i++) {rgb.push(Math.floor(Math.random() * 256))};
+        let multi_color =  `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]}`
 
-function fillSquares() {
+	let color = (button_id == 'black') ? 'black' : (button_id == 'eraser') ? 'white' : (button_id=='rainbow') ?  multi_color : 'black'
+	return fillSquares(color)
+}
+
+
+function fillSquares(color) {
         const squares = document.querySelectorAll('.square')
-        squares.forEach(square => square.addEventListener('mouseover', (e) => e.target.style.background = 'black'))
+        squares.forEach(square => square.addEventListener('mouseover', (e) => e.target.style.background = color))
 
         const grid = document.querySelector('.container');
-        grid.addEventListener('touchmove', (e) => e.target.style.background = 'black');
+        grid.addEventListener('touchmove', (e) => e.target.style.background = color);
 }
 
 function deleteGrid() {
@@ -47,6 +57,12 @@ function addResetListeners() {
 	input.addEventListener('blur', (e) => e.target.setAttribute('placeholder', '1-16'))
 }
 
+function addColorChangeListeners() {
+	const options = document.querySelectorAll('.option');
+	options.forEach(option => option.addEventListener('click', changeColor))
+}
+
 makeGrid(16);
-fillSquares();
+fillSquares('black');
 addResetListeners();
+addColorChangeListeners();
