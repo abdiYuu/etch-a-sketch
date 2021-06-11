@@ -31,11 +31,7 @@ function deleteGrid() {
 function resetGrid() {
 	const input = document.querySelector('#size')
 	size = Number(input.value)
-	if (size < 1 || size > 64 || !size) {
-		deleteGrid();
-		makeGrid(16);
-		fillSquares();
-	}else {
+	if (!(size < 1 || size > 64 || !size)) {
 		deleteGrid();
 		makeGrid(size);
 		fillSquares();
