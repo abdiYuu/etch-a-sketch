@@ -5,6 +5,7 @@ function makeGrid(sq) {
 	grid.style.gridTemplateRows=`repeat(${sq}, ${100/sq}%)`;
 	for(let i = 0; i < sq*sq; i++) {
 		const box = document.createElement('div');
+		box.style.background='#white'
 		box.style.border='1px solid black'
 		box.classList.add('square')
 		box.innerText='\n'
@@ -12,28 +13,44 @@ function makeGrid(sq) {
 	}
 }
 
-function changeGrid() {
+
+function fillSquares() {
+        const squares = document.querySelectorAll('.square')
+        squares.forEach(square => square.addEventListener('mouseover', (e) => e.target.style.background = 'black'))
+
+        const grid = document.querySelector('.container');
+        grid.addEventListener('touchmove', (e) => e.target.style.background = 'black');
+}
+
+function deleteGrid() {
+	const grid = document.querySelector('.container')
+	const boxes = Array.from(grid.children.valueOf());
+	boxes.forEach(child => child.remove());
+}
+
+function resetGrid() {
 	const input = document.querySelector('#size')
 	size = Number(input.value)
-	return (size < 1 || size > 64 || !size) ? 16 : size;
+	if (size < 1 || size > 64 || !size) {
+		deleteGrid();
+		makeGrid(16);
+		fillSquares();
+	}else {
+		deleteGrid();
+		makeGrid(size);
+		fillSquares();
+	}
 }
 
+function addResetListeners() {
+	const confirm_button = document.querySelector('#confirm')
+	confirm_button.addEventListener('click', resetGrid)
 
-function fillGrid(e) {
-        e.target.style.background = 'black'
+	const input = document.querySelector('#size')
+	input.addEventListener('focus',(e) => e.target.removeAttribute('placeholder'))
+	input.addEventListener('blur', (e) => e.target.setAttribute('placeholder', '1-16'))
 }
 
-
-const boxes = document.querySelectorAll('.square')
-const grid = document.querySelector('.container')
-const confirm_button = document.querySelector('#confirm')
-boxes.forEach(box => box.addEventListener('mouseover', fillGrid));
-grid.addEventListener('touchmove', fillGrid);
-confirm_button.addEventListener('click', makeGrid(changeGrid))
-
-makeGrid(16)
-
-
-const input = document.querySelector('#size')
-input.addEventListener('focus',(e) => e.target.removeAttribute('placeholder'))
-input.addEventListener('blur', (e) => e.target.setAttribute('placeholder', '1-16'))
+makeGrid(16);
+fillSquares();
+addResetListeners();
